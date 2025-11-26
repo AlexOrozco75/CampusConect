@@ -219,31 +219,27 @@
 
         .modal-content {
             background-color: white;
-            /* Usar un margen fijo para centrar mejor en escritorio */
             margin: 2% auto; 
             padding: 20px;
             border: 1px solid #888;
-            /* Altura y Ancho máximos para escritorio */
             width: 95%; 
             height: 95%; 
             max-width: 900px; 
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
             position: relative;
-            /* Permite el desplazamiento dentro del modal si el contenido es largo */
             overflow-y: auto; 
         }
 
         .close-button {
-            color: #333; /* Color oscuro */
+            color: #333; 
             font-size: 35px;
             font-weight: bold;
             cursor: pointer;
-            /* Posición fija dentro del modal, en la esquina superior derecha */
             position: absolute;
-            right: 15px; /* Ajustado para mejor visibilidad */
-            top: 5px; /* Ajustado para mejor visibilidad */
-            z-index: 1002; /* Más alto que el contenido */
+            right: 15px; 
+            top: 5px; 
+            z-index: 1002; 
             padding: 5px 10px;
             background-color: white;
             border-radius: 5px;
@@ -255,12 +251,10 @@
             background-color: #f0f0f0;
         }
         
-        /* Ajustar el iframe PDF para no chocar con la "X" */
         #pdfFrame {
             width: 100%;
             height: 100%;
             border: none;
-            padding-top: 0px; /* Ya no es necesario el padding top si la X es absoluta */
             box-sizing: border-box; 
         }
         
@@ -285,8 +279,14 @@
             font-size: 1em;
         }
 
-        .menu-table tr:hover {
-            background-color: #f7fff7;
+        /* FILA DEL MENÚ: Clickable */
+        .menu-table tr.menu-item {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .menu-table tr.menu-item:hover {
+            background-color: var(--color-fondo); 
         }
         
         .menu-table td i {
@@ -300,119 +300,155 @@
             color: #C70039; 
             width: 80px;
         }
-        /* *************** FIN DE ESTILOS MODALES *************** */
-
-
-        /* Estilos de Contacto */
-        .contact-list {
-            list-style: none;
-            padding: 0;
-            columns: 2; 
-            column-gap: 40px;
-            margin-bottom: 30px;
-        }
-
-        .contact-list li {
-            margin-bottom: 10px;
-        }
         
-        .contact-list a {
+        /* Botón de Añadir al Carrito dentro de la celda */
+        .add-to-cart-button {
+            background: var(--color-secundario);
             color: var(--color-principal);
-            text-decoration: none;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
             font-weight: bold;
-            display: block;
-            padding: 5px 0;
-            border-left: 3px solid var(--color-secundario);
-            padding-left: 10px;
-            transition: all 0.2s;
+            font-size: 0.8em;
+            transition: background 0.3s;
+            float: right;
         }
         
-        .contact-list a:hover {
-            background-color: #f0fff0;
-            text-decoration: underline;
+        .add-to-cart-button:hover {
+            background: #90ee90;
         }
-
-        footer {
+        
+        /* Nuevo Estilo para el Icono de Carrito Flotante */
+        .floating-cart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
             background-color: var(--color-principal);
             color: white;
-            text-align: center;
-            padding: 15px 0;
-            margin-top: 50px;
-            font-size: 0.9em;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .floating-cart:hover {
+            transform: scale(1.1);
         }
         
+        .cart-badge {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            background-color: #C70039; /* Rojo para destacar */
+            color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+            border-radius: 50%;
+            padding: 4px 8px;
+            line-height: 1;
+        }
+        
+        /* Estilos del Modal de Carrito */
+        #cartModal .modal-content {
+            max-width: 500px;
+            height: auto;
+            max-height: 90vh; /* Para evitar que se salga de la pantalla */
+        }
+
+        #cart-items-list {
+            list-style: none;
+            padding: 0;
+            max-height: 300px; 
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        #cart-items-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dotted #ccc;
+        }
+        
+        #cart-items-list li:last-child {
+            border-bottom: none;
+        }
+
+        .item-details {
+            flex-grow: 1;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .remove-item-btn {
+            background: none;
+            border: none;
+            color: #C70039;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        #cart-total {
+            text-align: right;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 2px solid var(--color-secundario);
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            background: var(--color-principal);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1.1em;
+            margin-top: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .checkout-btn:hover {
+            background: #267a49;
+        }
+
         /* MEDIA QUERIES PARA RESPONSIVIDAD REFORZADA */
         
         /* 1. Tabletas y Móviles Grandes (Máx. 768px) */
         @media (max-width: 768px) {
             
-            /* Logo y Encabezado */
-            .logo-container h1 {
-                font-size: 2em;
-                letter-spacing: 3px;
-            }
-            .logo-icon img {
-                width: 60px;
-            }
+            /* ... (código CSS de media queries previo) */
             
-            /* Servicios: Tarjetas de 2 en 2 o 1 en 1, según el tamaño */
-            .services-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
-                gap: 20px;
+            .floating-cart {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
             }
-            
-            /* Contactos: Poner en una sola columna */
-            .contact-list {
-                columns: 1; 
-            }
-            
-            /* Estilos del Modal a pantalla completa en móvil */
-            .modal-content {
-                margin: 0;
-                width: 100%;
-                height: 100%;
-                border-radius: 0;
-                padding: 10px; 
-            }
-            
-            /* Cuerpo de la página: Reducir márgenes */
-            main {
-                margin: 15px auto;
-                padding: 15px;
-                border-radius: 0; 
-            }
-            
-            /* Mapa: Ajustar la altura para móviles */
-            .map-container iframe {
-                height: 300px; 
-            }
-            
-            .close-button {
-                /* Asegurar que el botón se vea bien en móvil */
-                right: 10px;
-                top: 5px;
-                font-size: 30px;
+            .cart-badge {
+                font-size: 0.7em;
+                padding: 3px 6px;
             }
         }
         
         /* 2. Móviles Pequeños (Máx. 480px) */
         @media (max-width: 480px) {
             
-            /* Servicios: Una sola columna para evitar el hacinamiento */
-            .services-grid {
-                grid-template-columns: 1fr; 
-                gap: 15px;
-            }
-
-            .service-card {
-                padding: 20px;
-            }
+            /* ... (código CSS de media queries previo) */
             
-            /* Menú: Reducir tamaño de fuente en tabla */
-            .menu-table th, .menu-table td {
-                padding: 8px 10px;
-                font-size: 0.9em;
-            }
         }
     </style>
 </head>
@@ -553,6 +589,11 @@
     <footer>
         <p>¡Escanéame y Síguenos!   |   Campus Connect 2025</p>
     </footer>
+    
+    <div class="floating-cart" onclick="openCartModal()">
+        <i class="fas fa-shopping-cart fa-2x"></i>
+        <span class="cart-badge" id="cart-item-count">0</span>
+    </div>
 
     <div id="pdfModal" class="modal">
         <div class="modal-content">
@@ -565,52 +606,52 @@
         <div class="modal-content">
             <span class="close-button" onclick="closeCafeteriaMenu()">×</span>
             <h2 style="text-align: center;"><i class="fas fa-mug-hot"></i> Menú de Cafetería</h2>
-            <p style="text-align: center;">Precios aproximados en pesos mexicanos (MXN). ¡Sujeto a cambios!</p>
+            <p style="text-align: center;">Precios aproximados en pesos mexicanos (MXN). ¡Haz clic para añadir!</p>
 
             <table class="menu-table">
                 <thead>
                     <tr>
                         <th style="width: 70%;">Artículo</th>
-                        <th class="price" style="width: 30%; text-align: center;">Precio</th>
+                        <th class="price" style="width: 30%; text-align: right;">Precio</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr class="menu-item" onclick="addToCart('Torta de Huevo/Jamón', 35.00)">
                         <td><i class="fas fa-burger"></i> Torta de Huevo/Jamón</td>
                         <td class="price">$35.00</td>
                     </tr>
-                    <tr>
+                    <tr class="menu-item" onclick="addToCart('Quesadilla / Burrito', 25.00)">
                         <td><i class="fas fa-utensils"></i> Quesadilla / Burrito</td>
                         <td class="price">$25.00</td>
                     </tr>
-                    <tr>
+                    <tr class="menu-item" onclick="addToCart('Hot Dog Sencillo', 30.00)">
                         <td><i class="fas fa-hotdog"></i> Hot Dog Sencillo</td>
                         <td class="price">$30.00</td>
                     </tr>
-                    <tr>
+                    <tr class="menu-item" onclick="addToCart('Galleta de Avena', 15.00)">
                         <td><i class="fas fa-cookie"></i> Galleta de Avena</td>
                         <td class="price">$15.00</td>
                     </tr>
-                    <tr>
+                    <tr class="menu-item" onclick="addToCart('Fruta de Temporada', 20.00)">
                         <td><i class="fas fa-apple-whole"></i> Fruta de Temporada</td>
                         <td class="price">$20.00</td>
                     </tr>
                     <tr>
                         <td colspan="2"><hr style="border-top: 1px solid var(--color-secundario);"></td>
                     </tr>
-                    <tr>
+                    <tr class="menu-item" onclick="addToCart('Café Americano Chico', 25.00)">
                         <td><i class="fas fa-coffee"></i> Café Americano Chico</td>
                         <td class="price">$25.00</td>
                     </tr>
-                    <tr>
+                    <tr class="menu-item" onclick="addToCart('Agua Embotellada (600ml)', 15.00)">
                         <td><i class="fas fa-glass-water"></i> Agua Embotellada (600ml)</td>
                         <td class="price">$15.00</td>
                     </tr>
-                    <tr>
+                    <tr class="menu-item" onclick="addToCart('Refresco Lata', 22.00)">
                         <td><i class="fas fa-soda"></i> Refresco Lata</td>
                         <td class="price">$22.00</td>
                     </tr>
-                    <tr>
+                    <tr class="menu-item" onclick="addToCart('Jugo Natural', 35.00)">
                         <td><i class="fas fa-glass-water-droplet"></i> Jugo Natural (Naranja/Zanahoria)</td>
                         <td class="price">$35.00</td>
                     </tr>
@@ -619,16 +660,39 @@
         </div>
     </div>
     
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeCartModal()">×</span>
+            <h2 style="text-align: center;"><i class="fas fa-shopping-cart"></i> Tu Pedido</h2>
+            
+            <ul id="cart-items-list">
+                <p id="empty-cart-message" style="text-align: center; color: #888;">El carrito está vacío.</p>
+            </ul>
+            
+            <div id="cart-total">
+                Total: <span id="cart-total-amount">$0.00</span>
+            </div>
+            
+            <button class="checkout-btn" onclick="checkout()">
+                <i class="fas fa-check"></i> Finalizar Pedido (Simulación)
+            </button>
+            <button class="checkout-btn" style="background-color: #C70039; margin-top: 5px;" onclick="clearCart()">
+                <i class="fas fa-trash"></i> Vaciar Carrito
+            </button>
+        </div>
+    </div>
+
     <script>
+        // Array para almacenar los ítems del carrito
+        let cart = [];
+
         function openPdf(url) {
-            // Carga el PDF en el iframe y muestra el modal inmediatamente
             document.getElementById('pdfFrame').src = url;
             document.getElementById('pdfModal').style.display = 'block';
         }
 
         function closePdf() {
             document.getElementById('pdfModal').style.display = 'none';
-            // Opcional: limpiar src para detener la carga/reproducción
             document.getElementById('pdfFrame').src = ''; 
         }
         
@@ -652,6 +716,128 @@
                 button.innerHTML = '<i class="fas fa-times-circle"></i> Ocultar información';
             }
         }
+        
+        /* ------------------ FUNCIONES DEL CARRITO ------------------ */
+
+        function addToCart(name, price) {
+            // Busca si el artículo ya está en el carrito
+            const existingItem = cart.find(item => item.name === name);
+
+            if (existingItem) {
+                // Si existe, incrementa la cantidad
+                existingItem.quantity++;
+            } else {
+                // Si no existe, añade un nuevo artículo
+                cart.push({ name, price, quantity: 1 });
+            }
+            
+            updateCartDisplay();
+            // Cerrar el menú de la cafetería para que el usuario pueda ver el carrito si lo desea
+            closeCafeteriaMenu(); 
+            // Informar al usuario
+            alert(`${name} (x${existingItem ? existingItem.quantity : 1}) añadido al carrito!`);
+        }
+
+        function removeFromCart(name) {
+            const itemIndex = cart.findIndex(item => item.name === name);
+            
+            if (itemIndex > -1) {
+                // Si la cantidad es mayor a 1, solo la decrementamos
+                if (cart[itemIndex].quantity > 1) {
+                    cart[itemIndex].quantity--;
+                } else {
+                    // Si la cantidad es 1, eliminamos el ítem
+                    cart.splice(itemIndex, 1);
+                }
+                updateCartDisplay();
+            }
+        }
+        
+        function clearCart() {
+            if(confirm("¿Estás seguro de que quieres vaciar el carrito?")) {
+                cart = [];
+                updateCartDisplay();
+                alert("Carrito vaciado.");
+                closeCartModal();
+            }
+        }
+
+        function updateCartDisplay() {
+            const list = document.getElementById('cart-items-list');
+            const totalAmountSpan = document.getElementById('cart-total-amount');
+            const badge = document.getElementById('cart-item-count');
+            const emptyMessage = document.getElementById('empty-cart-message');
+            
+            list.innerHTML = '';
+            let total = 0;
+            let totalItems = 0;
+
+            if (cart.length === 0) {
+                // Mostrar mensaje de carrito vacío
+                emptyMessage.style.display = 'block';
+                document.getElementById('cartModal').querySelector('.checkout-btn').disabled = true;
+            } else {
+                emptyMessage.style.display = 'none';
+                document.getElementById('cartModal').querySelector('.checkout-btn').disabled = false;
+
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    totalItems += item.quantity;
+
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <div class="item-details">
+                            <span>${item.name} (x${item.quantity})</span>
+                            <span class="price">$${itemTotal.toFixed(2)}</span>
+                        </div>
+                        <button class="remove-item-btn" onclick="removeFromCart('${item.name}')">
+                            <i class="fas fa-minus-circle"></i>
+                        </button>
+                    `;
+                    list.appendChild(listItem);
+                });
+            }
+
+            totalAmountSpan.textContent = `$${total.toFixed(2)}`;
+            badge.textContent = totalItems;
+        }
+
+        function openCartModal() {
+            updateCartDisplay(); // Asegura que el contenido esté actualizado
+            document.getElementById('cartModal').style.display = 'block';
+        }
+
+        function closeCartModal() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+        
+        function checkout() {
+            if (cart.length === 0) {
+                alert("El carrito está vacío. Añade algunos productos antes de finalizar.");
+                return;
+            }
+            
+            // Simulación de finalización de pedido
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            let orderSummary = "Resumen del Pedido:\n\n";
+            cart.forEach(item => {
+                orderSummary += `- ${item.name} x${item.quantity} ($${(item.price * item.quantity).toFixed(2)})\n`;
+            });
+            orderSummary += `\nTotal a Pagar: $${total.toFixed(2)}`;
+            orderSummary += "\n\n(Esta es una simulación. El pedido real debe hacerse en la cafetería.)";
+            
+            alert(orderSummary);
+            
+            // Limpiar el carrito después de la simulación
+            cart = [];
+            updateCartDisplay();
+            closeCartModal();
+        }
+        
+        // Inicializar el display al cargar
+        document.addEventListener('DOMContentLoaded', updateCartDisplay);
     </script>
 </body>
 </html>
