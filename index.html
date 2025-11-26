@@ -219,40 +219,48 @@
 
         .modal-content {
             background-color: white;
+            /* Usar un margen fijo para centrar mejor en escritorio */
             margin: 2% auto; 
             padding: 20px;
             border: 1px solid #888;
+            /* Altura y Ancho máximos para escritorio */
             width: 95%; 
             height: 95%; 
-            max-width: 900px; /* Limitar el ancho en escritorio */
+            max-width: 900px; 
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
             position: relative;
+            /* Permite el desplazamiento dentro del modal si el contenido es largo */
+            overflow-y: auto; 
         }
 
         .close-button {
-            color: #aaa;
-            float: right;
+            color: #333; /* Color oscuro */
             font-size: 35px;
             font-weight: bold;
             cursor: pointer;
+            /* Posición fija dentro del modal, en la esquina superior derecha */
             position: absolute;
-            right: 20px;
-            top: 10px;
-            z-index: 1001;
+            right: 15px; /* Ajustado para mejor visibilidad */
+            top: 5px; /* Ajustado para mejor visibilidad */
+            z-index: 1002; /* Más alto que el contenido */
+            padding: 5px 10px;
+            background-color: white;
+            border-radius: 5px;
         }
 
         .close-button:hover,
         .close-button:focus {
             color: var(--color-principal);
-            text-decoration: none;
+            background-color: #f0f0f0;
         }
-
+        
+        /* Ajustar el iframe PDF para no chocar con la "X" */
         #pdfFrame {
             width: 100%;
             height: 100%;
             border: none;
-            padding-top: 30px; 
+            padding-top: 0px; /* Ya no es necesario el padding top si la X es absoluta */
             box-sizing: border-box; 
         }
         
@@ -289,7 +297,7 @@
         .menu-table .price {
             text-align: right;
             font-weight: bold;
-            color: #C70039; /* Rojo para destacar el precio */
+            color: #C70039; 
             width: 80px;
         }
         /* *************** FIN DE ESTILOS MODALES *************** */
@@ -349,7 +357,6 @@
             
             /* Servicios: Tarjetas de 2 en 2 o 1 en 1, según el tamaño */
             .services-grid {
-                /* Forzamos a que las tarjetas sean más grandes en dispositivos medianos si no caben 3 */
                 grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
                 gap: 20px;
             }
@@ -365,19 +372,26 @@
                 width: 100%;
                 height: 100%;
                 border-radius: 0;
-                padding: 10px; /* Reducir padding */
+                padding: 10px; 
             }
             
             /* Cuerpo de la página: Reducir márgenes */
             main {
                 margin: 15px auto;
                 padding: 15px;
-                border-radius: 0; /* Sin bordes redondeados en vista completa */
+                border-radius: 0; 
             }
             
             /* Mapa: Ajustar la altura para móviles */
             .map-container iframe {
                 height: 300px; 
+            }
+            
+            .close-button {
+                /* Asegurar que el botón se vea bien en móvil */
+                right: 10px;
+                top: 5px;
+                font-size: 30px;
             }
         }
         
@@ -550,14 +564,14 @@
     <div id="cafeteriaModal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeCafeteriaMenu()">×</span>
-            <h2><i class="fas fa-mug-hot"></i> Menú de Cafetería</h2>
-            <p>Precios aproximados en pesos mexicanos (MXN). ¡Sujeto a cambios!</p>
+            <h2 style="text-align: center;"><i class="fas fa-mug-hot"></i> Menú de Cafetería</h2>
+            <p style="text-align: center;">Precios aproximados en pesos mexicanos (MXN). ¡Sujeto a cambios!</p>
 
             <table class="menu-table">
                 <thead>
                     <tr>
-                        <th>Artículo</th>
-                        <th>Precio</th>
+                        <th style="width: 70%;">Artículo</th>
+                        <th class="price" style="width: 30%; text-align: center;">Precio</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -566,7 +580,7 @@
                         <td class="price">$35.00</td>
                     </tr>
                     <tr>
-                        <td><i class="fas fa-taco"></i> Quesadilla / Burrito</td>
+                        <td><i class="fas fa-utensils"></i> Quesadilla / Burrito</td>
                         <td class="price">$25.00</td>
                     </tr>
                     <tr>
@@ -582,7 +596,7 @@
                         <td class="price">$20.00</td>
                     </tr>
                     <tr>
-                        <td colspan="2"><hr style="border-top: 1px solid var(--color-principal);"></td>
+                        <td colspan="2"><hr style="border-top: 1px solid var(--color-secundario);"></td>
                     </tr>
                     <tr>
                         <td><i class="fas fa-coffee"></i> Café Americano Chico</td>
@@ -607,16 +621,17 @@
     
     <script>
         function openPdf(url) {
+            // Carga el PDF en el iframe y muestra el modal inmediatamente
             document.getElementById('pdfFrame').src = url;
             document.getElementById('pdfModal').style.display = 'block';
         }
 
         function closePdf() {
             document.getElementById('pdfModal').style.display = 'none';
+            // Opcional: limpiar src para detener la carga/reproducción
             document.getElementById('pdfFrame').src = ''; 
         }
         
-        // NUEVAS FUNCIONES PARA EL MENÚ DE CAFETERÍA
         function openCafeteriaMenu() {
             document.getElementById('cafeteriaModal').style.display = 'block';
         }
@@ -640,4 +655,3 @@
     </script>
 </body>
 </html>
-
