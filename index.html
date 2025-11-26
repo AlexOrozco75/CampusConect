@@ -132,6 +132,7 @@
 
         /* Estilos para las tarjetas de servicio */
         .services-grid {
+            /* Regla base para desktop: mínimo 180px por tarjeta, autoajustable */
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
             gap: 25px;
@@ -203,7 +204,7 @@
         /* FIN ESTILOS DEL MAPA */
 
 
-        /* *************** ESTILOS PARA EL MODAL DEL PDF *************** */
+        /* *************** ESTILOS PARA LOS MODALES *************** */
         .modal {
             display: none; 
             position: fixed; 
@@ -223,6 +224,7 @@
             border: 1px solid #888;
             width: 95%; 
             height: 95%; 
+            max-width: 900px; /* Limitar el ancho en escritorio */
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
             position: relative;
@@ -253,7 +255,44 @@
             padding-top: 30px; 
             box-sizing: border-box; 
         }
-        /* *************** FIN DE ESTILOS MODAL *************** */
+        
+        /* Estilos específicos del Menú de Cafetería */
+        .menu-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .menu-table th, .menu-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .menu-table th {
+            background-color: var(--color-principal);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1em;
+        }
+
+        .menu-table tr:hover {
+            background-color: #f7fff7;
+        }
+        
+        .menu-table td i {
+            margin-right: 10px;
+            color: var(--color-principal);
+        }
+        
+        .menu-table .price {
+            text-align: right;
+            font-weight: bold;
+            color: #C70039; /* Rojo para destacar el precio */
+            width: 80px;
+        }
+        /* *************** FIN DE ESTILOS MODALES *************** */
 
 
         /* Estilos de Contacto */
@@ -294,8 +333,12 @@
             font-size: 0.9em;
         }
         
-        /* Media Queries para responsividad */
+        /* MEDIA QUERIES PARA RESPONSIVIDAD REFORZADA */
+        
+        /* 1. Tabletas y Móviles Grandes (Máx. 768px) */
         @media (max-width: 768px) {
+            
+            /* Logo y Encabezado */
             .logo-container h1 {
                 font-size: 2em;
                 letter-spacing: 3px;
@@ -303,17 +346,58 @@
             .logo-icon img {
                 width: 60px;
             }
+            
+            /* Servicios: Tarjetas de 2 en 2 o 1 en 1, según el tamaño */
             .services-grid {
-                grid-template-columns: 1fr; 
+                /* Forzamos a que las tarjetas sean más grandes en dispositivos medianos si no caben 3 */
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+                gap: 20px;
             }
+            
+            /* Contactos: Poner en una sola columna */
             .contact-list {
                 columns: 1; 
             }
+            
+            /* Estilos del Modal a pantalla completa en móvil */
             .modal-content {
                 margin: 0;
                 width: 100%;
                 height: 100%;
                 border-radius: 0;
+                padding: 10px; /* Reducir padding */
+            }
+            
+            /* Cuerpo de la página: Reducir márgenes */
+            main {
+                margin: 15px auto;
+                padding: 15px;
+                border-radius: 0; /* Sin bordes redondeados en vista completa */
+            }
+            
+            /* Mapa: Ajustar la altura para móviles */
+            .map-container iframe {
+                height: 300px; 
+            }
+        }
+        
+        /* 2. Móviles Pequeños (Máx. 480px) */
+        @media (max-width: 480px) {
+            
+            /* Servicios: Una sola columna para evitar el hacinamiento */
+            .services-grid {
+                grid-template-columns: 1fr; 
+                gap: 15px;
+            }
+
+            .service-card {
+                padding: 20px;
+            }
+            
+            /* Menú: Reducir tamaño de fuente en tabla */
+            .menu-table th, .menu-table td {
+                padding: 8px 10px;
+                font-size: 0.9em;
             }
         }
     </style>
@@ -392,6 +476,14 @@
                     </a>
                 </div>
                 
+                <div class="service-card">
+                    <a href="#" onclick="openCafeteriaMenu(); return false;">
+                        <i class="fas fa-mug-hot"></i>
+                        <h3>Menú de Cafetería</h3>
+                        <p>Consulta la lista de alimentos, bebidas y precios disponibles en el campus.</p>
+                    </a>
+                </div>
+                
             </div>
         </section>
         
@@ -409,7 +501,7 @@
         
         <section class="location">
             <h2><i class="fas fa-map-marked-alt"></i> Ubicación del Campus</h2>
-            <p>Encuentra el campus principal del Tecnológico de Celaya de manera sencilla en el siguiente mapa interactivo.</p>
+            <p>Encuentra el campus principal del Tecnológico de Celaya de manera sencilla en el siguiente mapa interactivo. La dirección es: **Antonio García Cubas 600, Fovissste, 38010 Celaya, Gto.**</p>
             
             <div class="map-container">
                 
@@ -455,6 +547,64 @@
         </div>
     </div>
     
+    <div id="cafeteriaModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeCafeteriaMenu()">×</span>
+            <h2><i class="fas fa-mug-hot"></i> Menú de Cafetería</h2>
+            <p>Precios aproximados en pesos mexicanos (MXN). ¡Sujeto a cambios!</p>
+
+            <table class="menu-table">
+                <thead>
+                    <tr>
+                        <th>Artículo</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="fas fa-burger"></i> Torta de Huevo/Jamón</td>
+                        <td class="price">$35.00</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-taco"></i> Quesadilla / Burrito</td>
+                        <td class="price">$25.00</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-hotdog"></i> Hot Dog Sencillo</td>
+                        <td class="price">$30.00</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-cookie"></i> Galleta de Avena</td>
+                        <td class="price">$15.00</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-apple-whole"></i> Fruta de Temporada</td>
+                        <td class="price">$20.00</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><hr style="border-top: 1px solid var(--color-principal);"></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-coffee"></i> Café Americano Chico</td>
+                        <td class="price">$25.00</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-glass-water"></i> Agua Embotellada (600ml)</td>
+                        <td class="price">$15.00</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-soda"></i> Refresco Lata</td>
+                        <td class="price">$22.00</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-glass-water-droplet"></i> Jugo Natural (Naranja/Zanahoria)</td>
+                        <td class="price">$35.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
     <script>
         function openPdf(url) {
             document.getElementById('pdfFrame').src = url;
@@ -464,6 +614,15 @@
         function closePdf() {
             document.getElementById('pdfModal').style.display = 'none';
             document.getElementById('pdfFrame').src = ''; 
+        }
+        
+        // NUEVAS FUNCIONES PARA EL MENÚ DE CAFETERÍA
+        function openCafeteriaMenu() {
+            document.getElementById('cafeteriaModal').style.display = 'block';
+        }
+
+        function closeCafeteriaMenu() {
+            document.getElementById('cafeteriaModal').style.display = 'none';
         }
 
         function toggleMoreInfo() {
