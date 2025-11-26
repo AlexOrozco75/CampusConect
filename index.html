@@ -79,6 +79,31 @@
             gap: 10px;
         }
         
+        /* ESTILOS PARA ALERTAS */
+        .alert-container {
+            background-color: #ffe4b2; /* Amarillo pastel */
+            border-left: 5px solid #ff9900; /* Naranja fuerte */
+            padding: 15px;
+            margin-bottom: 25px; 
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-container .icon {
+            font-size: 1.8em;
+            color: #ff9900;
+        }
+
+        .alert-container p {
+            margin: 0;
+            font-weight: bold;
+            color: #555;
+        }
+        /* FIN ESTILOS PARA ALERTAS */
+
         /* Estilos para la nueva sección de "Más sobre nosotros" */
         .mission-toggle {
             margin-top: 20px;
@@ -188,8 +213,12 @@
         }
 
         /* ESTILOS DE LA SECCIÓN DEL MAPA */
-        .map-container {
+        .location {
             margin-top: 40px;
+        }
+        
+        .map-container {
+            margin-top: 20px;
             border: 2px solid var(--color-principal);
             border-radius: 10px;
             overflow: hidden; 
@@ -197,7 +226,7 @@
         
         .map-container iframe {
             width: 100%;
-            height: 450px; 
+            /* El valor de altura se ajusta en el HTML para el iframe de Google Maps */
             display: block;
             border: none;
         }
@@ -223,12 +252,36 @@
             padding: 20px;
             border: 1px solid #888;
             width: 95%; 
-            height: 95%; 
             max-width: 900px; /* Limitar el ancho en escritorio */
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
             position: relative;
+            display: flex; /* Usar flexbox para el contenido */
+            flex-direction: column; /* Organizar en columna */
+            max-height: 96vh; /* Limitar la altura del modal para que no se corte */
         }
+        /* ESTILOS MODIFICADOS PARA EL MODAL DE CAFETERÍA */
+        #cafeteriaModal .modal-content {
+            height: auto; /* Permitir que la altura se ajuste al contenido */
+            max-height: 90vh; /* Un poco menos para dejar espacio en móviles */
+        }
+
+        #cafeteriaModal .modal-content h2 {
+            margin-top: 0;
+        }
+
+        #cafeteriaModal .modal-content p {
+            margin-bottom: 15px;
+        }
+        
+        #cafeteriaModal .modal-content .menu-table-wrapper {
+            overflow-y: auto; /* Permitir scroll vertical en el contenido de la tabla */
+            overflow-x: auto; /* Permitir desplazamiento horizontal en la tabla si es necesario */
+            flex-grow: 1; /* Permite que la tabla ocupe el espacio disponible */
+            padding-bottom: 10px; /* Espacio para el scrollbar en algunos OS */
+        }
+        /* FIN ESTILOS MODIFICADOS PARA EL MODAL DE CAFETERÍA */
+
 
         .close-button {
             color: #aaa;
@@ -261,6 +314,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            min-width: 300px; /* Asegurar un ancho mínimo para móviles */
         }
         
         .menu-table th, .menu-table td {
@@ -291,6 +345,7 @@
             font-weight: bold;
             color: #C70039; /* Rojo para destacar el precio */
             width: 80px;
+            white-space: nowrap; /* Evita que el precio se rompa en varias líneas */
         }
         /* *************** FIN DE ESTILOS MODALES *************** */
 
@@ -323,7 +378,8 @@
             background-color: #f0fff0;
             text-decoration: underline;
         }
-
+        
+        /* ESTILOS DEL FOOTER MODIFICADO */
         footer {
             background-color: var(--color-principal);
             color: white;
@@ -332,6 +388,18 @@
             margin-top: 50px;
             font-size: 0.9em;
         }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            transition: color 0.3s;
+        }
+        
+        footer a:hover {
+            color: var(--color-secundario);
+        }
+        /* FIN ESTILOS DEL FOOTER MODIFICADO */
         
         /* MEDIA QUERIES PARA RESPONSIVIDAD REFORZADA */
         
@@ -364,6 +432,7 @@
                 margin: 0;
                 width: 100%;
                 height: 100%;
+                max-height: 100vh; /* Ajustar a la altura completa del viewport en móvil */
                 border-radius: 0;
                 padding: 10px; /* Reducir padding */
             }
@@ -378,6 +447,16 @@
             /* Mapa: Ajustar la altura para móviles */
             .map-container iframe {
                 height: 300px; 
+            }
+            
+            /* Ajustes específicos del modal de cafetería en móvil */
+            #cafeteriaModal .modal-content {
+                max-height: 100vh; /* Asegurarse de que el modal de cafetería también se ajuste bien en móvil */
+            }
+
+            .menu-table th, .menu-table td {
+                padding: 10px 12px;
+                font-size: 0.95em; /* Un poco más grande que el móvil pequeño */
             }
         }
         
@@ -397,7 +476,17 @@
             /* Menú: Reducir tamaño de fuente en tabla */
             .menu-table th, .menu-table td {
                 padding: 8px 10px;
+                font-size: 0.85em; /* Ajuste para pantallas muy pequeñas */
+            }
+            
+            /* Ajuste de Alerta */
+            .alert-container p {
                 font-size: 0.9em;
+            }
+            
+            /* Ajuste de título del menú en móvil */
+            #cafeteriaModal h2 {
+                font-size: 1.5em;
             }
         }
     </style>
@@ -414,6 +503,13 @@
     </header>
 
     <main>
+        
+        <section class="alerts">
+            <div class="alert-container">
+                <i class="fas fa-exclamation-triangle icon"></i>
+                <p>¡ATENCIÓN! La convocatoria de **Beca de Manutención** se cierra el 30 de noviembre. ¡Revisa tu estatus!</p>
+            </div>
+        </section>
         
         <section class="services">
             <h2><i class="fas fa-tools"></i> Servicios Clave</h2>
@@ -506,7 +602,7 @@
             <div class="map-container">
                 
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4992.2102980235095!2d-100.82189399976943!3d20.53858012315562!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842cba95dd73df57%3A0xbc5d6466d4b01fba!2sInstituto%20Tecnol%C3%B3gico%20de%20Celaya!5e0!3m2!1ses-419!2smx!4v1764095155677!5m2!1ses-419!2smx" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3736.21074343168!2d-100.82180022536483!3d20.538556480990867!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842cba95dd73df57%3A0xbc5d6466d4b01fba!2sInstituto%20Tecnol%C3%B3gico%20de%20Celaya!5e0!3m2!1ses-419!2smx!4v1764119757616!5m2!1ses-419!2smx" 
                     width="100%" 
                     height="450" 
                     style="border:0;" 
@@ -537,7 +633,11 @@
     </main>
 
     <footer>
-        <p>¡Escanéame y Síguenos!   |   Campus Connect 2025</p>
+        <p>¡Escanéame y Síguenos! 
+            <a href="https://www.facebook.com/itcelayaoficial" target="_blank" title="Facebook Oficial"><i class="fab fa-facebook-square"></i> Facebook</a>
+            | 
+            Campus Connect 2025
+        </p>
     </footer>
 
     <div id="pdfModal" class="modal">
@@ -553,55 +653,61 @@
             <h2><i class="fas fa-mug-hot"></i> Menú de Cafetería</h2>
             <p>Precios aproximados en pesos mexicanos (MXN). ¡Sujeto a cambios!</p>
 
-            <table class="menu-table">
-                <thead>
-                    <tr>
-                        <th>Artículo</th>
-                        <th>Precio</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><i class="fas fa-burger"></i> Torta de Huevo/Jamón</td>
-                        <td class="price">$35.00</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-taco"></i> Quesadilla / Burrito</td>
-                        <td class="price">$25.00</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-hotdog"></i> Hot Dog Sencillo</td>
-                        <td class="price">$30.00</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-cookie"></i> Galleta de Avena</td>
-                        <td class="price">$15.00</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-apple-whole"></i> Fruta de Temporada</td>
-                        <td class="price">$20.00</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><hr style="border-top: 1px solid var(--color-principal);"></td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-coffee"></i> Café Americano Chico</td>
-                        <td class="price">$25.00</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-glass-water"></i> Agua Embotellada (600ml)</td>
-                        <td class="price">$15.00</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-soda"></i> Refresco Lata</td>
-                        <td class="price">$22.00</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fas fa-glass-water-droplet"></i> Jugo Natural (Naranja/Zanahoria)</td>
-                        <td class="price">$35.00</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="menu-table-wrapper">
+                <table class="menu-table">
+                    <thead>
+                        <tr>
+                            <th>Artículo</th>
+                            <th>Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><i class="fas fa-egg"></i> Torta de Huevo/Jamón</td>
+                            <td class="price">$35.00</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-cheese"></i> Quesadilla / Burrito</td>
+                            <td class="price">$25.00</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-hotdog"></i> Hot Dog Sencillo</td>
+                            <td class="price">$30.00</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-cookie-bite"></i> Galleta de Avena</td>
+                            <td class="price">$15.00</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-apple-whole"></i> Fruta de Temporada</td>
+                            <td class="price">$20.00</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><hr style="border-top: 1px solid var(--color-principal);"></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-coffee"></i> Café Americano Chico</td>
+                            <td class="price">$25.00</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-glass-water"></i> Agua Embotellada (600ml)</td>
+                            <td class="price">$15.00</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-wine-bottle"></i> Refresco Lata</td>
+                            <td class="price">$22.00</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-carrot"></i> Jugo de Zanahoria</td>
+                            <td class="price">$35.00</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-glass-citrus"></i> Jugo Natural (Naranja)</td>
+                            <td class="price">$35.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     
@@ -616,7 +722,7 @@
             document.getElementById('pdfFrame').src = ''; 
         }
         
-        // NUEVAS FUNCIONES PARA EL MENÚ DE CAFETERÍA
+        // FUNCIONES PARA EL MENÚ DE CAFETERÍA
         function openCafeteriaMenu() {
             document.getElementById('cafeteriaModal').style.display = 'block';
         }
