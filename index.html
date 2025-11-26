@@ -230,7 +230,8 @@
             position: relative;
             overflow-y: auto; 
         }
-
+        
+        /* Botón de Cerrar (X) mejorado y fijo */
         .close-button {
             color: #333; 
             font-size: 35px;
@@ -243,6 +244,7 @@
             padding: 5px 10px;
             background-color: white;
             border-radius: 5px;
+            line-height: 1; 
         }
 
         .close-button:hover,
@@ -301,24 +303,6 @@
             width: 80px;
         }
         
-        /* Botón de Añadir al Carrito dentro de la celda */
-        .add-to-cart-button {
-            background: var(--color-secundario);
-            color: var(--color-principal);
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.8em;
-            transition: background 0.3s;
-            float: right;
-        }
-        
-        .add-to-cart-button:hover {
-            background: #90ee90;
-        }
-        
         /* Nuevo Estilo para el Icono de Carrito Flotante */
         .floating-cart {
             position: fixed;
@@ -359,7 +343,7 @@
         #cartModal .modal-content {
             max-width: 500px;
             height: auto;
-            max-height: 90vh; /* Para evitar que se salga de la pantalla */
+            max-height: 90vh; 
         }
 
         #cart-items-list {
@@ -427,11 +411,9 @@
 
         /* MEDIA QUERIES PARA RESPONSIVIDAD REFORZADA */
         
-        /* 1. Tabletas y Móviles Grandes (Máx. 768px) */
         @media (max-width: 768px) {
             
-            /* ... (código CSS de media queries previo) */
-            
+            /* Ajustes para Carrito Móvil */
             .floating-cart {
                 width: 50px;
                 height: 50px;
@@ -444,11 +426,18 @@
             }
         }
         
-        /* 2. Móviles Pequeños (Máx. 480px) */
         @media (max-width: 480px) {
             
-            /* ... (código CSS de media queries previo) */
-            
+            /* Servicios: Una sola columna para evitar el hacinamiento */
+            .services-grid {
+                grid-template-columns: 1fr; 
+                gap: 15px;
+            }
+
+            .menu-table th, .menu-table td {
+                padding: 8px 10px;
+                font-size: 0.9em;
+            }
         }
     </style>
 </head>
@@ -556,7 +545,7 @@
             <div class="map-container">
                 
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4992.2102980235095!2d-100.82189399976943!3d20.53858012315562!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842cba95dd73df57%3A0xbc5d6466d4b01fba!2sInstituto%20Tecnol%C3%B3gico%20de%20Celaya!5e0!3m2!1ses-419!2smx!4v1764095155677!5m2!1ses-419!2smx" 
+                    src="https://maps.google.com/maps?q=Antonio+Garc%C3%ADa+Cubas+600,+Celaya,+Guanajuato&t=&z=15&ie=UTF8&iwloc=&output=embed" 
                     width="100%" 
                     height="450" 
                     style="border:0;" 
@@ -606,7 +595,7 @@
         <div class="modal-content">
             <span class="close-button" onclick="closeCafeteriaMenu()">×</span>
             <h2 style="text-align: center;"><i class="fas fa-mug-hot"></i> Menú de Cafetería</h2>
-            <p style="text-align: center;">Precios aproximados en pesos mexicanos (MXN). ¡Haz clic para añadir!</p>
+            <p style="text-align: center;">Precios aproximados en pesos mexicanos (MXN). **¡Haz clic en el artículo para añadirlo al carrito!**</p>
 
             <table class="menu-table">
                 <thead>
@@ -648,8 +637,7 @@
                         <td class="price">$15.00</td>
                     </tr>
                     <tr class="menu-item" onclick="addToCart('Refresco Lata', 22.00)">
-                        <td><i class="fas fa-soda"></i> Refresco Lata</td>
-                        <td class="price">$22.00</td>
+                        <td><i class="fas fa-beer"></i> Refresco Lata</td> <td class="price">$22.00</td>
                     </tr>
                     <tr class="menu-item" onclick="addToCart('Jugo Natural', 35.00)">
                         <td><i class="fas fa-glass-water-droplet"></i> Jugo Natural (Naranja/Zanahoria)</td>
@@ -676,7 +664,7 @@
             <button class="checkout-btn" onclick="checkout()">
                 <i class="fas fa-check"></i> Finalizar Pedido (Simulación)
             </button>
-            <button class="checkout-btn" style="background-color: #C70039; margin-top: 5px;" onclick="clearCart()">
+            <button class="checkout-btn" style="background-color: #C70039; margin-top: 5px;" onclick="clearCart(true)">
                 <i class="fas fa-trash"></i> Vaciar Carrito
             </button>
         </div>
@@ -696,12 +684,27 @@
             document.getElementById('pdfFrame').src = ''; 
         }
         
+        /* ------------------ FUNCIONES DEL MENÚ (Ajustadas) ------------------ */
+
         function openCafeteriaMenu() {
+            // 1. VACIAR el carrito al abrir (nuevo pedido)
+            cart = [];
+            updateCartDisplay();
+            // 2. Abrir el modal del menú
             document.getElementById('cafeteriaModal').style.display = 'block';
         }
 
         function closeCafeteriaMenu() {
+            // 1. CERRAR el modal del menú
             document.getElementById('cafeteriaModal').style.display = 'none';
+            
+            // 2. VACIAR el carrito al salir (cancelar pedido)
+            if (cart.length > 0) {
+                 // Puedes añadir una alerta para informar al usuario si deseas
+                 console.log("Pedido cancelado: El carrito se vació al salir del menú.");
+            }
+            cart = [];
+            updateCartDisplay();
         }
 
         function toggleMoreInfo() {
@@ -720,7 +723,13 @@
         /* ------------------ FUNCIONES DEL CARRITO ------------------ */
 
         function addToCart(name, price) {
-            // Busca si el artículo ya está en el carrito
+            // Asegurarse de que el carrito se mantenga en el modal, no en la página principal
+            if (document.getElementById('cafeteriaModal').style.display !== 'block' && 
+                document.getElementById('cartModal').style.display !== 'block') {
+                alert("Por favor, abre el Menú de Cafetería para iniciar un pedido.");
+                return;
+            }
+
             const existingItem = cart.find(item => item.name === name);
 
             if (existingItem) {
@@ -732,10 +741,7 @@
             }
             
             updateCartDisplay();
-            // Cerrar el menú de la cafetería para que el usuario pueda ver el carrito si lo desea
-            closeCafeteriaMenu(); 
-            // Informar al usuario
-            alert(`${name} (x${existingItem ? existingItem.quantity : 1}) añadido al carrito!`);
+            console.log(`Añadido: ${name}. Total de ítems: ${cart.reduce((sum, item) => sum + item.quantity, 0)}`);
         }
 
         function removeFromCart(name) {
@@ -753,13 +759,16 @@
             }
         }
         
-        function clearCart() {
-            if(confirm("¿Estás seguro de que quieres vaciar el carrito?")) {
-                cart = [];
-                updateCartDisplay();
-                alert("Carrito vaciado.");
-                closeCartModal();
+        // El parámetro `showConfirmation` es para no pedir confirmación al cerrar el modal del carrito
+        function clearCart(showConfirmation = false) {
+            if (showConfirmation) {
+                if(!confirm("¿Estás seguro de que quieres vaciar el carrito?")) {
+                    return;
+                }
             }
+            cart = [];
+            updateCartDisplay();
+            closeCartModal();
         }
 
         function updateCartDisplay() {
@@ -776,9 +785,11 @@
                 // Mostrar mensaje de carrito vacío
                 emptyMessage.style.display = 'block';
                 document.getElementById('cartModal').querySelector('.checkout-btn').disabled = true;
+                document.querySelector('.floating-cart').style.display = 'none'; // Ocultar el carrito flotante si está vacío
             } else {
                 emptyMessage.style.display = 'none';
                 document.getElementById('cartModal').querySelector('.checkout-btn').disabled = false;
+                document.querySelector('.floating-cart').style.display = 'flex'; // Mostrar carrito flotante
 
                 cart.forEach(item => {
                     const itemTotal = item.price * item.quantity;
@@ -804,40 +815,5 @@
         }
 
         function openCartModal() {
-            updateCartDisplay(); // Asegura que el contenido esté actualizado
+            updateCartDisplay(); 
             document.getElementById('cartModal').style.display = 'block';
-        }
-
-        function closeCartModal() {
-            document.getElementById('cartModal').style.display = 'none';
-        }
-        
-        function checkout() {
-            if (cart.length === 0) {
-                alert("El carrito está vacío. Añade algunos productos antes de finalizar.");
-                return;
-            }
-            
-            // Simulación de finalización de pedido
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
-            let orderSummary = "Resumen del Pedido:\n\n";
-            cart.forEach(item => {
-                orderSummary += `- ${item.name} x${item.quantity} ($${(item.price * item.quantity).toFixed(2)})\n`;
-            });
-            orderSummary += `\nTotal a Pagar: $${total.toFixed(2)}`;
-            orderSummary += "\n\n(Esta es una simulación. El pedido real debe hacerse en la cafetería.)";
-            
-            alert(orderSummary);
-            
-            // Limpiar el carrito después de la simulación
-            cart = [];
-            updateCartDisplay();
-            closeCartModal();
-        }
-        
-        // Inicializar el display al cargar
-        document.addEventListener('DOMContentLoaded', updateCartDisplay);
-    </script>
-</body>
-</html>
